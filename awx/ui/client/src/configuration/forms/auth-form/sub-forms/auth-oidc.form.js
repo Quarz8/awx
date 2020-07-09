@@ -11,34 +11,19 @@ export default ['i18n', function(i18n) {
         showHeader: false,
 
         fields: {
-            ///////// Change these fields when backend files (conf.py, defaults.py, and fields.py) have OIDC field names
-            SOCIAL_AUTH_GITHUB_CALLBACK_URL: {
+            SOCIAL_AUTH_OIDC_INPUT_1: {
                 type: 'text',
-                reset: 'SOCIAL_AUTH_GITHUB_CALLBACK_URL'
+                reset: 'SOCIAL_AUTH_OIDC_INPUT_1'
             },
-            SOCIAL_AUTH_GITHUB_KEY: {
+            SOCIAL_AUTH_OIDC_INPUT_2: {
                 type: 'text',
-                reset: 'SOCIAL_AUTH_GITHUB_KEY'
+                reset: 'SOCIAL_AUTH_OIDC_INPUT_2'
             },
-            SOCIAL_AUTH_GITHUB_SECRET: {
+            SOCIAL_AUTH_OIDC_INPUT_3: {
                 type: 'sensitive',
                 hasShowInputButton: true,
-                reset: 'SOCIAL_AUTH_GITHUB_SECRET'
+                reset: 'SOCIAL_AUTH_OIDC_INPUT_3'
             },
-            SOCIAL_AUTH_GITHUB_ORGANIZATION_MAP: {
-                type: 'textarea',
-                reset: 'SOCIAL_AUTH_GITHUB_ORGANIZATION_MAP',
-                rows: 6,
-                codeMirror: true,
-                class: 'Form-textAreaLabel Form-formGroup--fullWidth'
-            },
-            SOCIAL_AUTH_GITHUB_TEAM_MAP: {
-                type: 'textarea',
-                reset: 'SOCIAL_AUTH_GITHUB_TEAM_MAP',
-                rows: 6,
-                codeMirror: true,
-                class: 'Form-textAreaLabel Form-formGroup--fullWidth'
-            }
         },
 
         buttons: {
