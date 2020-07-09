@@ -526,6 +526,10 @@ SOCIAL_AUTH_SAML_ENABLED_IDPS = {}
 SOCIAL_AUTH_SAML_ORGANIZATION_ATTR = {}
 SOCIAL_AUTH_SAML_TEAM_ATTR = {}
 
+SOCIAL_AUTH_OIDC_INPUT_1 = ''
+SOCIAL_AUTH_OIDC_INPUT_2 = ''
+SOCIAL_AUTH_OIDC_INPUT_3 = ''
+
 # Any ANSIBLE_* settings will be passed to the task runner subprocess
 # environment
 
