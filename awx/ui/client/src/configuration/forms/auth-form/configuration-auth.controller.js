@@ -199,13 +199,13 @@ export default [
                 id: 'auth-ldap5-form',
                 name: 'ldap5'
             },
-            // { 
-            //     formDef: formDefs.oidc, ////////////////////////////// forms aren't rendering when this is uncommented
-            //     id: 'auth-oidc-form',
-            //     name: 'oidc'
-            // }
+            { 
+                formDef: formDefs.oidc, 
+                id: 'auth-oidc-form',
+                name: 'oidc'
+            }
         ];
-        
+    
         var forms = _.map(authForms, 'formDef');
         _.each(forms, function(form) {
             var keys = _.keys(form.fields);

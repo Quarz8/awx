@@ -11,14 +11,19 @@ export default ['i18n', function(i18n) {
         showHeader: false,
 
         fields: {
-            SOCIAL_AUTH_OIDC_CALLBACK_URL: {
+            SOCIAL_AUTH_OIDC_INPUT_1: {
                 type: 'text',
-                reset: 'SOCIAL_AUTH_OIDC_CALLBACK_URL'
+                reset: 'SOCIAL_AUTH_OIDC_INPUT_1'
             },
-            SOCIAL_AUTH_OIDC_KEY: {
+            SOCIAL_AUTH_OIDC_INPUT_2: {
                 type: 'text',
-                reset: 'SOCIAL_AUTH_OIDC_KEY'
-            }
+                reset: 'SOCIAL_AUTH_OIDC_INPUT_2'
+            },
+            SOCIAL_AUTH_OIDC_INPUT_3: {
+                type: 'sensitive',
+                hasShowInputButton: true,
+                reset: 'SOCIAL_AUTH_OIDC_INPUT_3'
+            },
         },
 
         buttons: {
