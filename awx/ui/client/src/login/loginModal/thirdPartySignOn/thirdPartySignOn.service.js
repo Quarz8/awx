@@ -17,6 +17,8 @@
         return function (params) {
             var url = params.url;
 
+            // console.log('url', url) // where is the API calling? How can we add login info into backend?
+
                 return $http({
                     method: 'GET',
                     url: url,
@@ -88,6 +90,8 @@
 
                         // set up the particular tooltip, icon, etc.
                         // needed by the login type
+                        // console.log('key', key)
+
                         if (key.split("-")[0] === "azuread") {
                             finalOption = parseAzure(option, key);
                         } else if (key.split("-")[0] === "google") {

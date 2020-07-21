@@ -215,6 +215,8 @@ export default [
                 global.$AnsibleConfig.custom_logo = false;
             }
 
+            // console.log('$scope.CUSTOM_LOGIN_INFO', $scope.CUSTOM_LOGIN_INFO);
+
             if($scope.CUSTOM_LOGIN_INFO) {
                 $rootScope.custom_login_info = $scope.CUSTOM_LOGIN_INFO;
                 global.$AnsibleConfig.custom_login_info = $scope.CUSTOM_LOGIN_INFO;
@@ -401,6 +403,7 @@ export default [
             }
 
             const [payloadCopy] = getFormPayload();
+            // console.log('payloadCopy', payloadCopy)
             SettingsService.patchConfiguration(payloadCopy)
                 .then(function(data) {
                     loginUpdate();
