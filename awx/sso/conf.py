@@ -1225,40 +1225,61 @@ register(
 ###############################################################################
 
 register(
-    'SOCIAL_AUTH_OIDC_INPUT_1',
+    'SOCIAL_AUTH_OIDC_AUTHORIZE_URI',
+    field_class=fields.CharField,
+    allow_blank=True,
+    default='',
+    label=_('OIDC Authorize URI'),
+    help_text=_('Provide this URI as the authorize URI for your application as part of your registration process. The authorize URI on the authorization server is where an OpenID Connect flow starts.'),
+    category=_('OpenID Connect'),
+    category_slug='oidc',
+)
+
+register(
+    'SOCIAL_AUTH_OIDC_REDIRECT_URI',
     field_class=fields.CharField,
     read_only=True,
     default='',
-    label=_('OIDC Input 1'),
-    help_text=_('Dummy text!'),
+    label=_('OIDC Redirect URI'),
+    help_text=_('Provide this URI as the redirect URI for your application as part of your registration process. The redirect URI tells the issuer where to redirect the browser back to when the flow is done.'),
     category=_('OpenID Connect'),
     category_slug='oidc',
     depends_on=['TOWER_URL_BASE'],
 )
 
 register(
-    'SOCIAL_AUTH_OIDC_INPUT_2',
+    'SOCIAL_AUTH_OIDC_SCOPE',
     field_class=fields.CharField,
     allow_blank=True,
-    default='',
-    label=_('OIDC Input 2'),
-    help_text=_('Dummy text!'),
+    default='openid',
+    label=_('OIDC Scope'),
+    help_text=_('Multiple scopes may be specified by separating with spaces or commas. The openid scope is the only required scope.'),
     category=_('OpenID Connect'),
     category_slug='oidc',
 )
 
 register(
-    'SOCIAL_AUTH_OIDC_INPUT_3',
+    'SOCIAL_AUTH_OIDC_CLIENT_ID',
     field_class=fields.CharField,
     allow_blank=True,
-    default='',
-    label=_('OIDC Input 3'),
-    help_text=_('Dummy text!'),
+    default='oidc',
+    label=_('OIDC Client ID'),
+    help_text=_('The OpenID Connect key (Client ID) from your OpenID Connect application.'),
+    category=_('OpenID Connect'),
+    category_slug='oidc',
+)
+
+register(
+    'SOCIAL_AUTH_OIDC_CLIENT_SECRET',
+    field_class=fields.CharField,
+    allow_blank=True,
+    default='oidc',
+    label=_('OIDC Client Secret'),
+    help_text=_('The OpenID Connect secret (Client Secret) from your OpenID Connect application.'),
     category=_('OpenID Connect'),
     category_slug='oidc',
     encrypted=True,
 )
-
 
 
 def tacacs_validate(serializer, attrs):
