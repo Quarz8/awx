@@ -1220,6 +1220,46 @@ register(
     ]),
 )
 
+###############################################################################
+# OIDC AUTHENTICATION SETTINGS
+###############################################################################
+
+register(
+    'SOCIAL_AUTH_OIDC_INPUT_1',
+    field_class=fields.CharField,
+    read_only=True,
+    default='',
+    label=_('OIDC Input 1'),
+    help_text=_('Dummy text!'),
+    category=_('OpenID Connect'),
+    category_slug='oidc',
+    depends_on=['TOWER_URL_BASE'],
+)
+
+register(
+    'SOCIAL_AUTH_OIDC_INPUT_2',
+    field_class=fields.CharField,
+    allow_blank=True,
+    default='',
+    label=_('OIDC Input 2'),
+    help_text=_('Dummy text!'),
+    category=_('OpenID Connect'),
+    category_slug='oidc',
+)
+
+register(
+    'SOCIAL_AUTH_OIDC_INPUT_3',
+    field_class=fields.CharField,
+    allow_blank=True,
+    default='',
+    label=_('OIDC Input 3'),
+    help_text=_('Dummy text!'),
+    category=_('OpenID Connect'),
+    category_slug='oidc',
+    encrypted=True,
+)
+
+
 
 def tacacs_validate(serializer, attrs):
     if not serializer.instance or \

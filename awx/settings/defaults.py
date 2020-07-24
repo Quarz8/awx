@@ -333,6 +333,7 @@ AUTHENTICATION_BACKENDS = (
     'awx.sso.backends.LDAPBackend5',
     'awx.sso.backends.RADIUSBackend',
     'awx.sso.backends.TACACSPlusBackend',
+    'awx.sso.backends.OIDCBackend', # OIDC backend warrend
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.github.GithubOAuth2',
     'social_core.backends.github.GithubOrganizationOAuth2',
@@ -525,6 +526,10 @@ SOCIAL_AUTH_SAML_ENABLED_IDPS = {}
 
 SOCIAL_AUTH_SAML_ORGANIZATION_ATTR = {}
 SOCIAL_AUTH_SAML_TEAM_ATTR = {}
+
+SOCIAL_AUTH_OIDC_INPUT_1 = ''
+SOCIAL_AUTH_OIDC_INPUT_2 = ''
+SOCIAL_AUTH_OIDC_INPUT_3 = ''
 
 # Any ANSIBLE_* settings will be passed to the task runner subprocess
 # environment
