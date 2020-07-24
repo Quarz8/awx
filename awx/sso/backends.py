@@ -32,11 +32,32 @@ from social_core.backends.saml import OID_USERID
 from social_core.backends.saml import SAMLAuth as BaseSAMLAuth
 from social_core.backends.saml import SAMLIdentityProvider as BaseSAMLIdentityProvider
 
+from social_core.backends.open_id_connect import OpenIdConnectAuth # import OpenIdConnectAuth class warrend
+
 # Ansible Tower
 from awx.sso.models import UserEnterpriseAuth
 
 logger = logging.getLogger('awx.sso.backends')
 
+class OIDCBackend(OpenIdConnectAuth): #oidcbackend cp4mcm warrend
+    name='cp4mcm-openidconnect'
+# Override OIDC_ENDPOINT in your subclass to enable autoconfig of OIDC
+    OIDC_ENDPOINT = 'https://cp-console.apps.scoured.os.fyre.ibm.com:443/oidc/endpoint/OP' #https://cp-console.apps.scoured.os.fyre.ibm.com/oidc/login.jsp
+    ID_TOKEN_MAX_AGE = 600
+    DEFAULT_SCOPE = ['openid', 'profile', 'email']
+    EXTRA_DATA = ['id_token', 'refresh_token', ('sub', 'id')]
+    REDIRECT_STATE = False
+    ACCESS_TOKEN_METHOD = 'POST'
+    REVOKE_TOKEN_METHOD = 'GET'
+    ID_KEY = 'sub'
+    USERNAME_KEY = 'preferred_username'
+    ID_TOKEN_ISSUER = 'cp-console.apps.scoured.os.fyre.ibm.com:443/oidc/endpoint/OP' #cp-console.apps.scoured.os.fyre.ibm.com/oidc/login.jsp
+    ACCESS_TOKEN_URL = 'https://cp-console.apps.scoured.os.fyre.ibm.com:443/idprovider/v1/auth/identitytoken'
+    AUTHORIZATION_URL = 'https://cp-console.apps.scoured.os.fyre.ibm.com:443/idprovider/v1/auth/authorize'
+    REVOKE_TOKEN_URL = 'https://cp-console.apps.scoured.os.fyre.ibm.com:443/idprovider/v1/auth/revoke'
+    USERINFO_URL = 'https://cp-console.apps.scoured.os.fyre.ibm.com:443/idprovider/v1/auth/userInfo'
+    #JWKS_URI = ''
+    #JWT_DECODE_OPTIONS = dict()
 
 class LDAPSettings(BaseLDAPSettings):
 

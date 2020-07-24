@@ -333,6 +333,7 @@ AUTHENTICATION_BACKENDS = (
     'awx.sso.backends.LDAPBackend5',
     'awx.sso.backends.RADIUSBackend',
     'awx.sso.backends.TACACSPlusBackend',
+    'awx.sso.backends.OIDCBackend', # OIDC backend warrend
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.github.GithubOAuth2',
     'social_core.backends.github.GithubOrganizationOAuth2',
