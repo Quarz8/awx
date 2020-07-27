@@ -1,48 +1,45 @@
 {
   "checksum": {
     "previous": "3dfbafd778b214fc5df2a64fe14fbfb30ba40e33282eedf0d98b5a613786db88",
-    "current": "8e93e60ad566d892233aa06b6ce03521fbc69ea2506ed21192443697524b22f4"
+    "current": "3dfbafd778b214fc5df2a64fe14fbfb30ba40e33282eedf0d98b5a613786db88"
   },
   "fonts": [
-
+    "./fontcustom_3dfbafd778b214fc5df2a64fe14fbfb3.ttf",
+    "./fontcustom_3dfbafd778b214fc5df2a64fe14fbfb3.svg",
+    "./fontcustom_3dfbafd778b214fc5df2a64fe14fbfb3.woff",
+    "./fontcustom_3dfbafd778b214fc5df2a64fe14fbfb3.eot"
   ],
   "glyphs": {
     "activity-stream": {
-      "source": "new_icons/activity-stream.svg",
-      "codepoint": 61697
+      "codepoint": 61697,
+      "source": "new_icons/activity-stream.svg"
     },
     "google": {
-      "source": "new_icons/google.svg",
-      "codepoint": 61698
-    },
-    "ibmcloud": {
-      "source": "new_icons/ibmcloud.svg",
-      "codepoint": 61704
+      "codepoint": 61698,
+      "source": "new_icons/google.svg"
     },
     "launch": {
-      "source": "new_icons/launch.svg",
-      "codepoint": 61699
+      "codepoint": 61699,
+      "source": "new_icons/launch.svg"
     },
     "microsoft": {
-      "source": "new_icons/microsoft.svg",
-      "codepoint": 61700
+      "codepoint": 61700,
+      "source": "new_icons/microsoft.svg"
     },
     "saml-02": {
-      "source": "new_icons/saml-02.svg",
-      "codepoint": 61701
+      "codepoint": 61701,
+      "source": "new_icons/saml-02.svg"
     },
     "user": {
-      "source": "new_icons/user.svg",
-      "codepoint": 61702
+      "codepoint": 61702,
+      "source": "new_icons/user.svg"
     }
   },
   "options": {
     "autowidth": false,
     "config": false,
-    "copyright": "",
-    "css3": false,
     "css_selector": ".icon-{{glyph}}",
-    "debug": true,
+    "debug": false,
     "font_ascent": 448,
     "font_descent": 64,
     "font_design_size": 16,
@@ -50,18 +47,17 @@
     "font_name": "fontcustom",
     "force": false,
     "input": {
-      "templates": "new_icons",
-      "vectors": "new_icons"
+      "templates": "new_icons/",
+      "vectors": "new_icons/"
     },
     "no_hash": false,
     "output": {
-      "css": "fontcustom",
-      "fonts": "fontcustom",
-      "preview": "fontcustom"
+      "css": ".",
+      "fonts": ".",
+      "preview": "."
     },
     "preprocessor_path": null,
     "quiet": false,
-    "skip_first": false,
     "templates": [
       "css",
       "preview"
