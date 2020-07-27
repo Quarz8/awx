@@ -17,14 +17,17 @@
         return function (params) {
             var url = params.url;
 
-            // console.log('url', url) // where is the API calling? How can we add login info into backend?
-
                 return $http({
                     method: 'GET',
                     url: url,
                 }).then(function (data) {
                     var options = [],
                         error = "";
+
+                    // Manually adding OIDC as a data option on the login screen. 
+                    // TODO: add OIDC when auth settings form is saved and fields are defined + non-empty 
+                    // (fields.py, settings-form.controller.js, settings.service.js)
+                    data.data.oidc = {login_url:"https://www.ibm.com/cloud", complete_url:'https://www.ibm.com/cloud'}
 
                     function parseAzure(option) {
                         var newOption = {};
@@ -85,12 +88,22 @@
                         return newOption;
                     }
 
+                    function parseOidc(option) {
+                        var newOption = {};
+
+                        newOption.type = "oidc";
+                        newOption.icon = "ibmcloud-icon";
+                        newOption.link = option.login_url;
+                        newOption.tooltip = i18n.sprintf(i18n._("Sign in with %s"), "OpenID Connect");
+
+                        return newOption;
+                    }
+
                     function parseLoginOption(option, key) {
                         var finalOption;
 
                         // set up the particular tooltip, icon, etc.
                         // needed by the login type
-                        // console.log('key', key)
 
                         if (key.split("-")[0] === "azuread") {
                             finalOption = parseAzure(option, key);
@@ -100,6 +113,8 @@
                             finalOption = parseGithub(option, key);
                         } else if (key.split(":")[0] === "saml") {
                             finalOption = parseSaml(option, key);
+                        } else if (key.split("-")[0] === "oidc") {
+                            finalOption = parseOidc(option, key);
                         }
 
                         // set the button to error red and set the error message to be passed to the login modal.

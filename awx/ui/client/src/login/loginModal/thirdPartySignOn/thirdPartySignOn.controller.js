@@ -19,7 +19,6 @@ export default ['$window', '$scope', 'thirdPartySignOnService',
             if (data && data.options && data.options.length > 0) {
                 $scope.thirdPartyLoginSupported = true;
                 $scope.loginItems = data.options;
-                console.log($scope.loginItems)
             } else {
                 $scope.thirdPartyLoginSupported = false;
             }
