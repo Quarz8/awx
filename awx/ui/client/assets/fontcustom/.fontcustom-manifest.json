@@ -1,7 +1,7 @@
 {
   "checksum": {
     "previous": "3dfbafd778b214fc5df2a64fe14fbfb30ba40e33282eedf0d98b5a613786db88",
-    "current": "8e93e60ad566d892233aa06b6ce03521fbc69ea2506ed21192443697524b22f4"
+    "current": "3dfbafd778b214fc5df2a64fe14fbfb30ba40e33282eedf0d98b5a613786db88"
   },
   "fonts": [
 
@@ -42,7 +42,7 @@
     "copyright": "",
     "css3": false,
     "css_selector": ".icon-{{glyph}}",
-    "debug": true,
+    "debug": false,
     "font_ascent": 448,
     "font_descent": 64,
     "font_design_size": 16,
@@ -50,14 +50,14 @@
     "font_name": "fontcustom",
     "force": false,
     "input": {
-      "templates": "new_icons",
-      "vectors": "new_icons"
+      "templates": "new_icons/",
+      "vectors": "new_icons/"
     },
     "no_hash": false,
     "output": {
-      "css": "fontcustom",
-      "fonts": "fontcustom",
-      "preview": "fontcustom"
+      "css": ".",
+      "fonts": ".",
+      "preview": "."
     },
     "preprocessor_path": null,
     "quiet": false,
