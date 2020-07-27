@@ -61,7 +61,6 @@
     },
     "preprocessor_path": null,
     "quiet": false,
-    "skip_first": false,
     "templates": [
       "css",
       "preview"
