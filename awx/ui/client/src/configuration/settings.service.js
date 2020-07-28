@@ -85,6 +85,8 @@ export default ['GetBasePath', '$q', 'Rest', 'i18n',
                     .catch((error) => {
                         deferred.reject(error);
                     });
+                
+                console.log(deferred.promise);
 
                 return deferred.promise;
             },
