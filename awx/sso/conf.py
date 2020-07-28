@@ -1239,7 +1239,7 @@ register(
     'SOCIAL_AUTH_OIDC_REDIRECT_URI',
     field_class=fields.CharField,
     read_only=True,
-    default='',
+    default='test.com',
     label=_('OIDC Redirect URI'),
     help_text=_('Provide this URI as the redirect URI for your application as part of your registration process. The redirect URI tells the issuer where to redirect the browser back to when the flow is done.'),
     category=_('OpenID Connect'),
