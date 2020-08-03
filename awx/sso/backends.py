@@ -32,7 +32,12 @@ from social_core.backends.saml import OID_USERID
 from social_core.backends.saml import SAMLAuth as BaseSAMLAuth
 from social_core.backends.saml import SAMLIdentityProvider as BaseSAMLIdentityProvider
 
+# oidc imports required for overridden methods
 from social_core.backends.open_id_connect import OpenIdConnectAuth
+import social_core.backends.open_id
+from jose import jwk, jwt
+from jose.utils import base64url_decode
+import json
 
 # Ansible Tower
 from awx.sso.models import UserEnterpriseAuth
@@ -40,25 +45,43 @@ from awx.sso.models import UserEnterpriseAuth
 logger = logging.getLogger('awx.sso.backends')
 
 class CP4MCMOpenIdConnect(OpenIdConnectAuth):
-    name              = 'cp4mcm-oidc'
-    OIDC_ENDPOINT     = 'https://cp-console.apps.scoured.os.fyre.ibm.com:443/oidc/endpoint/<provider_name>/authorize'
-    ACCESS_TOKEN_URL  = OIDC_ENDPOINT + '/idprovider/v1/auth/token'
-    AUTHORIZATION_URL = OIDC_ENDPOINT + '/idprovider/v1/auth/authorize'
-    JWKS_URI          = OIDC_ENDPOINT + '/oidc/endpoint/OP/jwk'
+    name              = 'oidc' #'cp4mcm-oidc'
+    OIDC_ENDPOINT     = 'https://cp-console.apps.squad-2-ocp.os.fyre.ibm.com:443'
+    '''
+    ACCESS_TOKEN_URL  = OIDC_ENDPOINT + '/oidc/endpoint/OP/token' #'/idprovider/v1/auth/token'
+    AUTHORIZATION_URL = OIDC_ENDPOINT + '/oidc/endpoint/OP/authorize' #'/idprovider/v1/auth/authorize'
+    JWKS_URI          = OIDC_ENDPOINT + '/oidc/endpoint/OP/jwk' #'https://www.googleapis.com/oauth2/v3/certs'
     USERINFO_URL      = OIDC_ENDPOINT + '/idprovider/v1/auth/userInfo'
     REVOKE_TOKEN_URL  = OIDC_ENDPOINT + '/idprovider/v1/auth/revoke'
-    ID_TOKEN_ISSUER   = 'https://127.0.0.1:443/idauth/oidc/endpoint/OP'
+    ID_TOKEN_ISSUER   = 'https://127.0.0.1:443/idauth/oidc/endpoint/OP' # OIDC_ENDPOINT + '/idauth/oidc/endpoint/OP'
+    ID_KEY = 'sub'
+    '''
 
-    def user_data(self, access_token, *args, **kwargs):
-        """Return user data from userinfo API"""
-        return self.get_json(
-            self.USERINFO_URL,
-            params={'access_token': access_token, 'alt': 'json'}
-        )
-        
     def oidc_config(self):
         return self.get_json(self.OIDC_ENDPOINT +
-                             '/oidc/.well-known/openid-configuration')
+                             '/oidc/endpoint/OP/.well-known/openid-configuration', verify=False)
+
+    def user_data(self, access_token, *args, **kwargs):
+        return self.get_json(self.userinfo_url(), headers={
+            'Authorization': 'Bearer {0}'.format(access_token)
+        }, verify=False)
+    
+    def get_remote_jwks_keys(self):
+        response = self.request(self.jwks_uri(), verify=False)
+        return json.loads(response.text)['keys']
+
+    def request_access_token(self, *args, **kwargs):
+        """
+        Retrieve the access token. Also, validate the id_token and
+        store it (temporarily).
+        """
+        response = self.get_json(*args, **kwargs, verify=False)
+        print(response['id_token'])
+        self.id_token = self.validate_and_return_id_token(
+            response['id_token'],
+            response['access_token']
+        )
+        return response
 
 class LDAPSettings(BaseLDAPSettings):
 

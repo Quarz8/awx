@@ -24,11 +24,6 @@
                     var options = [],
                         error = "";
 
-                    // Manually adding OIDC as a data option on the login screen. 
-                    // TODO: add OIDC when auth settings form is saved and fields are defined + non-empty 
-                    // (fields.py, settings-form.controller.js, settings.service.js)
-                    data.data.oidc = {login_url:"https://www.ibm.com/cloud", complete_url:'https://www.ibm.com/cloud'}
-
                     function parseAzure(option) {
                         var newOption = {};
 
@@ -101,10 +96,8 @@
 
                     function parseLoginOption(option, key) {
                         var finalOption;
-
                         // set up the particular tooltip, icon, etc.
                         // needed by the login type
-
                         if (key.split("-")[0] === "azuread") {
                             finalOption = parseAzure(option, key);
                         } else if (key.split("-")[0] === "google") {

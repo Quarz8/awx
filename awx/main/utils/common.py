@@ -1066,6 +1066,7 @@ def get_external_account(user):
             getattr(settings, 'SOCIAL_AUTH_GITHUB_KEY', None) or
             getattr(settings, 'SOCIAL_AUTH_GITHUB_ORG_KEY', None) or
             getattr(settings, 'SOCIAL_AUTH_GITHUB_TEAM_KEY', None) or
+            getattr(settings, 'SOCIAL_AUTH_OIDC_KEY', None) or
             getattr(settings, 'SOCIAL_AUTH_SAML_ENABLED_IDPS', None)) and user.social_auth.all():
         account_type = "social"
     if (getattr(settings, 'RADIUS_SERVER', None) or
