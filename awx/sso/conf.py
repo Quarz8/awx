@@ -1239,14 +1239,14 @@ register(
     'SOCIAL_AUTH_OIDC_REDIRECT_URI',
     field_class=fields.CharField,
     read_only=True,
-    default='test.com',
+    default=SocialAuthCallbackURL('oidc'),
     label=_('OIDC Redirect URI'),
     help_text=_('Provide this URI as the redirect URI for your application as part of your registration process. The redirect URI tells the issuer where to redirect the browser back to when the flow is done.'),
     category=_('OpenID Connect'),
     category_slug='oidc',
     depends_on=['TOWER_URL_BASE'],
 )
-
+'''
 register(
     'SOCIAL_AUTH_OIDC_SCOPE',
     field_class=fields.CharField,
@@ -1257,9 +1257,9 @@ register(
     category=_('OpenID Connect'),
     category_slug='oidc',
 )
-
+'''
 register(
-    'SOCIAL_AUTH_OIDC_CLIENT_ID',
+    'SOCIAL_AUTH_OIDC_KEY',
     field_class=fields.CharField,
     allow_blank=True,
     default='oidc',
@@ -1270,7 +1270,7 @@ register(
 )
 
 register(
-    'SOCIAL_AUTH_OIDC_CLIENT_SECRET',
+    'SOCIAL_AUTH_OIDC_SECRET',
     field_class=fields.CharField,
     allow_blank=True,
     default='oidc',
