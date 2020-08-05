@@ -62,7 +62,7 @@ generate_patch() {
 main() {
   check_prerequisites
 
-  _tmp="$(mktemp -d --suffix .awx-requirements XXXX -p /tmp)"
+  _tmp="$(mktemp -d /tmp/XXXX.awx-requirements)" # _tmp="$(mktemp -d --suffix .awx-requirements XXXX -p /tmp)"
   trap _cleanup INT TERM EXIT
 
   if [ "$1" = "upgrade" ]; then

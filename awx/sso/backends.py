@@ -31,12 +31,46 @@ import tacacs_plus
 from social_core.backends.saml import OID_USERID
 from social_core.backends.saml import SAMLAuth as BaseSAMLAuth
 from social_core.backends.saml import SAMLIdentityProvider as BaseSAMLIdentityProvider
+from social_core.backends.open_id_connect import OpenIdConnectAuth
+
+# oidc imports required for overridden methods
+from jose import jwk, jwt
+from jose.utils import base64url_decode
+import json
 
 # Ansible Tower
 from awx.sso.models import UserEnterpriseAuth
 
 logger = logging.getLogger('awx.sso.backends')
 
+class CP4MCMOpenIdConnect(OpenIdConnectAuth):
+    name              = 'oidc'
+    OIDC_ENDPOINT = django_settings.SOCIAL_AUTH_OIDC_AUTHORIZE_URI
+
+    def oidc_config(self):
+        return self.get_json(self.OIDC_ENDPOINT +
+                             '/oidc/endpoint/OP/.well-known/openid-configuration', verify=False)
+
+    def user_data(self, access_token, *args, **kwargs):
+        return self.get_json(self.userinfo_url(), headers={
+            'Authorization': 'Bearer {0}'.format(access_token)
+        }, verify=False)
+    
+    def get_remote_jwks_keys(self):
+        response = self.request(self.jwks_uri(), verify=False)
+        return json.loads(response.text)['keys']
+
+    def request_access_token(self, *args, **kwargs):
+        """
+        Retrieve the access token. Also, validate the id_token and
+        store it (temporarily).
+        """
+        response = self.get_json(*args, **kwargs, verify=False)
+        self.id_token = self.validate_and_return_id_token(
+            response['id_token'],
+            response['access_token']
+        )
+        return response
 
 class LDAPSettings(BaseLDAPSettings):
 
