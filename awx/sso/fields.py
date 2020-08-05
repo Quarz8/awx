@@ -194,6 +194,7 @@ class AuthenticationBackendsField(fields.StringListField):
         ('awx.sso.backends.CP4MCMOpenIdConnect', [
             'SOCIAL_AUTH_OIDC_KEY',
             'SOCIAL_AUTH_OIDC_SECRET',
+            'SOCIAL_AUTH_OIDC_AUTHORIZE_URI',
         ]),
         ('awx.sso.backends.SAMLAuth', [
             'SOCIAL_AUTH_SAML_SP_ENTITY_ID',

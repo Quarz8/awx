@@ -31,10 +31,9 @@ import tacacs_plus
 from social_core.backends.saml import OID_USERID
 from social_core.backends.saml import SAMLAuth as BaseSAMLAuth
 from social_core.backends.saml import SAMLIdentityProvider as BaseSAMLIdentityProvider
+from social_core.backends.open_id_connect import OpenIdConnectAuth
 
 # oidc imports required for overridden methods
-from social_core.backends.open_id_connect import OpenIdConnectAuth
-import social_core.backends.open_id
 from jose import jwk, jwt
 from jose.utils import base64url_decode
 import json
@@ -45,17 +44,8 @@ from awx.sso.models import UserEnterpriseAuth
 logger = logging.getLogger('awx.sso.backends')
 
 class CP4MCMOpenIdConnect(OpenIdConnectAuth):
-    name              = 'oidc' #'cp4mcm-oidc'
-    OIDC_ENDPOINT     = 'https://cp-console.apps.squad-2-ocp.os.fyre.ibm.com:443'
-    '''
-    ACCESS_TOKEN_URL  = OIDC_ENDPOINT + '/oidc/endpoint/OP/token' #'/idprovider/v1/auth/token'
-    AUTHORIZATION_URL = OIDC_ENDPOINT + '/oidc/endpoint/OP/authorize' #'/idprovider/v1/auth/authorize'
-    JWKS_URI          = OIDC_ENDPOINT + '/oidc/endpoint/OP/jwk' #'https://www.googleapis.com/oauth2/v3/certs'
-    USERINFO_URL      = OIDC_ENDPOINT + '/idprovider/v1/auth/userInfo'
-    REVOKE_TOKEN_URL  = OIDC_ENDPOINT + '/idprovider/v1/auth/revoke'
-    ID_TOKEN_ISSUER   = 'https://127.0.0.1:443/idauth/oidc/endpoint/OP' # OIDC_ENDPOINT + '/idauth/oidc/endpoint/OP'
-    ID_KEY = 'sub'
-    '''
+    name              = 'oidc'
+    OIDC_ENDPOINT = django_settings.SOCIAL_AUTH_OIDC_AUTHORIZE_URI
 
     def oidc_config(self):
         return self.get_json(self.OIDC_ENDPOINT +
@@ -76,7 +66,6 @@ class CP4MCMOpenIdConnect(OpenIdConnectAuth):
         store it (temporarily).
         """
         response = self.get_json(*args, **kwargs, verify=False)
-        print(response['id_token'])
         self.id_token = self.validate_and_return_id_token(
             response['id_token'],
             response['access_token']
