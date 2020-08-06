@@ -529,9 +529,8 @@ SOCIAL_AUTH_SAML_TEAM_ATTR = {}
 
 SOCIAL_AUTH_OIDC_KEY = ''
 SOCIAL_AUTH_OIDC_SECRET = '' 
-SOCIAL_AUTH_OIDC_AUTHORIZE_URI = '' # this needs to be fixed
+SOCIAL_AUTH_OIDC_ENDPOINT = ''
 SOCIAL_AUTH_OIDC_REDIRECT_URI = '' 
-#SOCIAL_AUTH_OIDC_SCOPE = ['openid']
 
 # Any ANSIBLE_* settings will be passed to the task runner subprocess
 # environment
