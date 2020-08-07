@@ -33,6 +33,8 @@ from social_core.backends.saml import SAMLAuth as BaseSAMLAuth
 from social_core.backends.saml import SAMLIdentityProvider as BaseSAMLIdentityProvider
 from social_core.backends.open_id_connect import OpenIdConnectAuth
 
+from social_core.backends.open_id_connect import OpenIdConnectAuth # import OpenIdConnectAuth class warrend
+
 # Ansible Tower
 from awx.sso.models import UserEnterpriseAuth
 
@@ -42,6 +44,7 @@ from jose.utils import base64url_decode
 import json
 
 logger = logging.getLogger('awx.sso.backends')
+
 
 class CP4MCMOpenIdConnect(OpenIdConnectAuth):
     name            = 'oidc'
@@ -71,6 +74,7 @@ class CP4MCMOpenIdConnect(OpenIdConnectAuth):
             response['access_token']
         )
         return response
+
 
 class LDAPSettings(BaseLDAPSettings):
 
