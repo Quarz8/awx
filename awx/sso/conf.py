@@ -1225,12 +1225,12 @@ register(
 ###############################################################################
 
 register(
-    'SOCIAL_AUTH_OIDC_ENDPOINT',
+    'SOCIAL_AUTH_OIDC_AUTHORIZE_URI',
     field_class=fields.CharField,
     allow_blank=True,
     default='',
-    label=_('OIDC Endpoint'),
-    help_text=_('Provide the endpoint for your application as part of your registration process.'),
+    label=_('OIDC Authorize URI'),
+    help_text=_('Provide this URI as the authorize URI for your application as part of your registration process. The authorize URI on the authorization server is where an OpenID Connect flow starts.'),
     category=_('OpenID Connect'),
     category_slug='oidc',
 )
@@ -1239,7 +1239,7 @@ register(
     'SOCIAL_AUTH_OIDC_REDIRECT_URI',
     field_class=fields.CharField,
     read_only=True,
-    default=SocialAuthCallbackURL('oidc'),
+    default='',
     label=_('OIDC Redirect URI'),
     help_text=_('Provide this URI as the redirect URI for your application as part of your registration process. The redirect URI tells the issuer where to redirect the browser back to when the flow is done.'),
     category=_('OpenID Connect'),
@@ -1248,7 +1248,18 @@ register(
 )
 
 register(
-    'SOCIAL_AUTH_OIDC_KEY',
+    'SOCIAL_AUTH_OIDC_SCOPE',
+    field_class=fields.CharField,
+    allow_blank=True,
+    default='openid',
+    label=_('OIDC Scope'),
+    help_text=_('Multiple scopes may be specified by separating with spaces or commas. The openid scope is the only required scope.'),
+    category=_('OpenID Connect'),
+    category_slug='oidc',
+)
+
+register(
+    'SOCIAL_AUTH_OIDC_CLIENT_ID',
     field_class=fields.CharField,
     allow_blank=True,
     default='oidc',
@@ -1259,7 +1270,7 @@ register(
 )
 
 register(
-    'SOCIAL_AUTH_OIDC_SECRET',
+    'SOCIAL_AUTH_OIDC_CLIENT_SECRET',
     field_class=fields.CharField,
     allow_blank=True,
     default='oidc',

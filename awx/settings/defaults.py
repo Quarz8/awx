@@ -340,7 +340,6 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubTeamOAuth2',
     'social_core.backends.azuread.AzureADOAuth2',
     'awx.sso.backends.SAMLAuth',
-    'awx.sso.backends.CP4MCMOpenIdConnect',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -528,10 +527,11 @@ SOCIAL_AUTH_SAML_ENABLED_IDPS = {}
 SOCIAL_AUTH_SAML_ORGANIZATION_ATTR = {}
 SOCIAL_AUTH_SAML_TEAM_ATTR = {}
 
-SOCIAL_AUTH_OIDC_KEY = ''
-SOCIAL_AUTH_OIDC_SECRET = '' 
-SOCIAL_AUTH_OIDC_ENDPOINT = ''
-SOCIAL_AUTH_OIDC_REDIRECT_URI = '' 
+SOCIAL_AUTH_OIDC_AUTHORIZE_URI = ''
+SOCIAL_AUTH_OIDC_REDIRECT_URI = ''
+SOCIAL_AUTH_OIDC_SCOPE = 'openid'
+SOCIAL_AUTH_OIDC_CLIENT_ID = ''
+SOCIAL_AUTH_OIDC_CLIENT_SECRET = ''
 
 # Any ANSIBLE_* settings will be passed to the task runner subprocess
 # environment
