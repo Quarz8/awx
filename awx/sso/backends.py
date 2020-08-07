@@ -33,20 +33,13 @@ from social_core.backends.saml import SAMLAuth as BaseSAMLAuth
 from social_core.backends.saml import SAMLIdentityProvider as BaseSAMLIdentityProvider
 from social_core.backends.open_id_connect import OpenIdConnectAuth
 
-from social_core.backends.open_id_connect import OpenIdConnectAuth # import OpenIdConnectAuth class warrend
-
 # Ansible Tower
 from awx.sso.models import UserEnterpriseAuth
-
-# required for overridden methods in oidc backend
-from jose import jwk, jwt
-from jose.utils import base64url_decode
-import json
 
 logger = logging.getLogger('awx.sso.backends')
 
 
-class CP4MCMOpenIdConnect(OpenIdConnectAuth):
+class OpenIdConnect(OpenIdConnectAuth):
     name            = 'oidc'
     OIDC_ENDPOINT   = django_settings.SOCIAL_AUTH_OIDC_ENDPOINT
 
