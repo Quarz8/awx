@@ -38,11 +38,15 @@ from awx.sso.models import UserEnterpriseAuth
 
 logger = logging.getLogger('awx.sso.backends')
 
-
 class OpenIdConnect(OpenIdConnectAuth):
     name            = 'oidc'
     OIDC_ENDPOINT   = django_settings.SOCIAL_AUTH_OIDC_ENDPOINT
 
+    '''
+    The below methods have been overridden from OpenIdConnectAuth because they
+    require certificates to go unverified in requests. Once the certs issue is
+    solved, these methods (and the 'import json') can be removed.
+    '''
     def oidc_config(self):
         return self.get_json(self.OIDC_ENDPOINT +
                              '/.well-known/openid-configuration', verify=False)
