@@ -11,26 +11,22 @@ export default ['i18n', function(i18n) {
         showHeader: false,
 
         fields: {
-            SOCIAL_AUTH_OIDC_AUTHORIZE_URI: {
+            SOCIAL_AUTH_OIDC_ENDPOINT: {
                 type: 'text',
-                reset: 'SOCIAL_AUTH_OIDC_AUTHORIZE_URI'
+                reset: 'SOCIAL_AUTH_OIDC_ENDPOINT'
             },
             SOCIAL_AUTH_OIDC_REDIRECT_URI: {
                 type: 'text',
                 reset: 'SOCIAL_AUTH_OIDC_REDIRECT_URI'
             },
-            SOCIAL_AUTH_OIDC_SCOPE: {
+            SOCIAL_AUTH_OIDC_KEY: {
                 type: 'text',
-                reset: 'SOCIAL_AUTH_OIDC_SCOPE'
+                reset: 'SOCIAL_AUTH_OIDC_KEY'
             },
-            SOCIAL_AUTH_OIDC_CLIENT_ID: {
-                type: 'text',
-                reset: 'SOCIAL_AUTH_OIDC_CLIENT_ID'
-            },
-            SOCIAL_AUTH_OIDC_CLIENT_SECRET: {
+            SOCIAL_AUTH_OIDC_SECRET: {
                 type: 'sensitive',
                 hasShowInputButton: true,
-                reset: 'SOCIAL_AUTH_OIDC_CLIENT_SECRET'
+                reset: 'SOCIAL_AUTH_OIDC_SECRET'
             },
         },
 
