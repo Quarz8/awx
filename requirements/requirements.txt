@@ -99,7 +99,7 @@ python-ldap==3.2.0        # via django-auth-ldap
 python-radius==1.0        # via -r /awx_devel/requirements/requirements.in
 python-string-utils==1.0.0  # via openshift
 python3-openid==3.1.0     # via social-auth-core
-python3-saml==1.9.0       # via -r /awx_devel/requirements/requirements.in, social-auth-core
+python3-saml==1.9.0       # via -r /awx_devel/requirements/requirements.in
 pytz==2019.3              # via django, irc, tempora, twilio
 pyyaml==5.3.1             # via -r /awx_devel/requirements/requirements.in, ansible-runner, djangorestframework-yaml, kubernetes
 redis==3.4.1              # via -r /awx_devel/requirements/requirements.in, django-redis
@@ -114,7 +114,7 @@ six==1.14.0               # via ansible-runner, automat, cryptography, django-ex
 slackclient==1.1.2        # via -r /awx_devel/requirements/requirements.in
 smmap==3.0.1              # via gitdb
 social-auth-app-django==3.1.0  # via -r /awx_devel/requirements/requirements.in
-social-auth-core[all]==3.3.1  # via -r /awx_devel/requirements/requirements.in, social-auth-app-django
+social-auth-core[openidconnect]==3.3.1  # via -r /awx_devel/requirements/requirements.in, social-auth-app-django
 sqlparse==0.3.1           # via django
 tacacs_plus==1.0          # via -r /awx_devel/requirements/requirements.in
 tempora==2.1.0            # via irc, jaraco.logging

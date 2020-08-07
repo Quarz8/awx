@@ -333,14 +333,13 @@ AUTHENTICATION_BACKENDS = (
     'awx.sso.backends.LDAPBackend5',
     'awx.sso.backends.RADIUSBackend',
     'awx.sso.backends.TACACSPlusBackend',
-    'awx.sso.backends.OIDCBackend', # OIDC backend warrend
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.github.GithubOAuth2',
     'social_core.backends.github.GithubOrganizationOAuth2',
     'social_core.backends.github.GithubTeamOAuth2',
     'social_core.backends.azuread.AzureADOAuth2',
     'awx.sso.backends.SAMLAuth',
-    'awx.sso.backends.CP4MCMOpenIdConnect',
+    'awx.sso.backends.OpenIdConnect',
     'django.contrib.auth.backends.ModelBackend',
 )
 

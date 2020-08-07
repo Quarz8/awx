@@ -191,7 +191,7 @@ class AuthenticationBackendsField(fields.StringListField):
             'SOCIAL_AUTH_AZUREAD_OAUTH2_KEY',
             'SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET',
         ]),
-        ('awx.sso.backends.CP4MCMOpenIdConnect', [
+        ('awx.sso.backends.OpenIdConnect', [
             'SOCIAL_AUTH_OIDC_KEY',
             'SOCIAL_AUTH_OIDC_SECRET',
             'SOCIAL_AUTH_OIDC_ENDPOINT',
