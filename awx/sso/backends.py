@@ -36,11 +36,6 @@ from social_core.backends.open_id_connect import OpenIdConnectAuth
 # Ansible Tower
 from awx.sso.models import UserEnterpriseAuth
 
-# required for overridden methods in oidc backend
-#from jose import jwk, jwt
-#from jose.utils import base64url_decode
-#import json
-
 logger = logging.getLogger('awx.sso.backends')
 
 
