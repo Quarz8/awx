@@ -31,50 +31,33 @@ import tacacs_plus
 from social_core.backends.saml import OID_USERID
 from social_core.backends.saml import SAMLAuth as BaseSAMLAuth
 from social_core.backends.saml import SAMLIdentityProvider as BaseSAMLIdentityProvider
-from social_core.backends.open_id_connect import OpenIdConnectAuth
 
 from social_core.backends.open_id_connect import OpenIdConnectAuth # import OpenIdConnectAuth class warrend
 
 # Ansible Tower
 from awx.sso.models import UserEnterpriseAuth
 
-# required for overridden methods in oidc backend
-from jose import jwk, jwt
-from jose.utils import base64url_decode
-import json
-
 logger = logging.getLogger('awx.sso.backends')
 
-
-class CP4MCMOpenIdConnect(OpenIdConnectAuth):
-    name            = 'oidc'
-    OIDC_ENDPOINT   = django_settings.SOCIAL_AUTH_OIDC_ENDPOINT
-
-    def oidc_config(self):
-        return self.get_json(self.OIDC_ENDPOINT +
-                             '/.well-known/openid-configuration', verify=False)
-
-    def user_data(self, access_token, *args, **kwargs):
-        return self.get_json(self.userinfo_url(), headers={
-            'Authorization': 'Bearer {0}'.format(access_token)
-        }, verify=False)
-    
-    def get_remote_jwks_keys(self):
-        response = self.request(self.jwks_uri(), verify=False)
-        return json.loads(response.text)['keys']
-
-    def request_access_token(self, *args, **kwargs):
-        """
-        Retrieve the access token. Also, validate the id_token and
-        store it (temporarily).
-        """
-        response = self.get_json(*args, **kwargs, verify=False)
-        self.id_token = self.validate_and_return_id_token(
-            response['id_token'],
-            response['access_token']
-        )
-        return response
-
+class OIDCBackend(OpenIdConnectAuth): #oidcbackend cp4mcm warrend
+    name='cp4mcm-openidconnect'
+# Override OIDC_ENDPOINT in your subclass to enable autoconfig of OIDC
+    OIDC_ENDPOINT = 'https://cp-console.apps.scoured.os.fyre.ibm.com:443/oidc/endpoint/OP' #https://cp-console.apps.scoured.os.fyre.ibm.com/oidc/login.jsp
+    ID_TOKEN_MAX_AGE = 600
+    DEFAULT_SCOPE = ['openid', 'profile', 'email']
+    EXTRA_DATA = ['id_token', 'refresh_token', ('sub', 'id')]
+    REDIRECT_STATE = False
+    ACCESS_TOKEN_METHOD = 'POST'
+    REVOKE_TOKEN_METHOD = 'GET'
+    ID_KEY = 'sub'
+    USERNAME_KEY = 'preferred_username'
+    ID_TOKEN_ISSUER = 'cp-console.apps.scoured.os.fyre.ibm.com:443/oidc/endpoint/OP' #cp-console.apps.scoured.os.fyre.ibm.com/oidc/login.jsp
+    ACCESS_TOKEN_URL = 'https://cp-console.apps.scoured.os.fyre.ibm.com:443/idprovider/v1/auth/identitytoken'
+    AUTHORIZATION_URL = 'https://cp-console.apps.scoured.os.fyre.ibm.com:443/idprovider/v1/auth/authorize'
+    REVOKE_TOKEN_URL = 'https://cp-console.apps.scoured.os.fyre.ibm.com:443/idprovider/v1/auth/revoke'
+    USERINFO_URL = 'https://cp-console.apps.scoured.os.fyre.ibm.com:443/idprovider/v1/auth/userInfo'
+    #JWKS_URI = ''
+    #JWT_DECODE_OPTIONS = dict()
 
 class LDAPSettings(BaseLDAPSettings):
 

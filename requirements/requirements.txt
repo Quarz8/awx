@@ -32,8 +32,8 @@ django-oauth-toolkit==1.1.3  # via -r /awx_devel/requirements/requirements.in
 django-pglocks==1.0.4     # via -r /awx_devel/requirements/requirements.in
 django-polymorphic==2.1.2  # via -r /awx_devel/requirements/requirements.in
 django-qsstats-magic==1.1.0  # via -r /awx_devel/requirements/requirements.in
+django-redis==4.5.0
 django-radius==1.3.3      # via -r /awx_devel/requirements/requirements.in
-django-redis==4.5.0       # via -r /awx_devel/requirements/requirements.in
 django-solo==1.1.3        # via -r /awx_devel/requirements/requirements.in
 django-split-settings==1.0.0  # via -r /awx_devel/requirements/requirements.in
 django-taggit==1.2.0      # via -r /awx_devel/requirements/requirements.in
@@ -41,7 +41,6 @@ django==2.2.11            # via -r /awx_devel/requirements/requirements.in, chan
 djangorestframework-yaml==1.0.3  # via -r /awx_devel/requirements/requirements.in
 djangorestframework==3.11.0  # via -r /awx_devel/requirements/requirements.in
 docutils==0.16            # via python-daemon
-ecdsa==0.14.1             # via python-jose
 future==0.16.0            # via django-radius
 gitdb==4.0.2              # via gitpython
 gitpython==3.1.0          # via -r /awx_devel/requirements/requirements.in
@@ -83,7 +82,7 @@ psutil==5.7.0             # via ansible-runner
 psycopg2==2.8.4           # via -r /awx_devel/requirements/requirements.in
 ptyprocess==0.6.0         # via pexpect
 pyasn1-modules==0.2.8     # via google-auth, python-ldap, service-identity
-pyasn1==0.4.8             # via pyasn1-modules, python-jose, python-ldap, rsa, service-identity
+pyasn1==0.4.8             # via pyasn1-modules, python-ldap, rsa, service-identity
 pycparser==2.20           # via cffi
 pygerduty==0.38.2         # via -r /awx_devel/requirements/requirements.in
 pyhamcrest==2.0.2         # via twisted
@@ -94,27 +93,26 @@ pyrad==2.3                # via django-radius
 pyrsistent==0.15.7        # via jsonschema
 python-daemon==2.2.4      # via ansible-runner
 python-dateutil==2.8.1    # via adal, kubernetes
-python-jose==3.2.0        # via social-auth-core
 python-ldap==3.2.0        # via django-auth-ldap
 python-radius==1.0        # via -r /awx_devel/requirements/requirements.in
 python-string-utils==1.0.0  # via openshift
 python3-openid==3.1.0     # via social-auth-core
-python3-saml==1.9.0       # via -r /awx_devel/requirements/requirements.in, social-auth-core
+python3-saml==1.9.0       # via -r /awx_devel/requirements/requirements.in
 pytz==2019.3              # via django, irc, tempora, twilio
 pyyaml==5.3.1             # via -r /awx_devel/requirements/requirements.in, ansible-runner, djangorestframework-yaml, kubernetes
-redis==3.4.1              # via -r /awx_devel/requirements/requirements.in, django-redis
+redis==3.4.1              # via -r /awx_devel/requirements/requirements.in
 requests-oauthlib==1.3.0  # via kubernetes, msrest, social-auth-core
 requests==2.23.0          # via -r /awx_devel/requirements/requirements.in, adal, azure-keyvault, django-oauth-toolkit, kubernetes, msrest, requests-oauthlib, slackclient, social-auth-core, twilio
-rsa==4.0                  # via google-auth, python-jose
+rsa==4.0                  # via google-auth
 ruamel.yaml.clib==0.2.0   # via ruamel.yaml
 ruamel.yaml==0.16.10      # via openshift
 schedule==0.6.0           # via -r /awx_devel/requirements/requirements.in
 service-identity==18.1.0  # via twisted
-six==1.14.0               # via ansible-runner, automat, cryptography, django-extensions, django-pglocks, ecdsa, google-auth, isodate, jaraco.collections, jaraco.logging, jaraco.text, jsonschema, kubernetes, openshift, pygerduty, pyopenssl, pyrad, pyrsistent, python-dateutil, python-jose, slackclient, social-auth-app-django, social-auth-core, tacacs-plus, twilio, txaio, websocket-client
+six==1.14.0               # via ansible-runner, automat, cryptography, django-extensions, django-pglocks, google-auth, isodate, jaraco.collections, jaraco.logging, jaraco.text, jsonschema, kubernetes, openshift, pygerduty, pyopenssl, pyrad, pyrsistent, python-dateutil, slackclient, social-auth-app-django, social-auth-core, tacacs-plus, twilio, txaio, websocket-client
 slackclient==1.1.2        # via -r /awx_devel/requirements/requirements.in
 smmap==3.0.1              # via gitdb
 social-auth-app-django==3.1.0  # via -r /awx_devel/requirements/requirements.in
-social-auth-core[all]==3.3.1  # via -r /awx_devel/requirements/requirements.in, social-auth-app-django
+social-auth-core==3.3.1   # via -r /awx_devel/requirements/requirements.in, social-auth-app-django
 sqlparse==0.3.1           # via django
 tacacs_plus==1.0          # via -r /awx_devel/requirements/requirements.in
 tempora==2.1.0            # via irc, jaraco.logging
