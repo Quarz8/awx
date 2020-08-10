@@ -1225,12 +1225,12 @@ register(
 ###############################################################################
 
 register(
-    'SOCIAL_AUTH_OIDC_AUTHORIZE_URI',
+    'SOCIAL_AUTH_OIDC_ENDPOINT',
     field_class=fields.CharField,
     allow_blank=True,
     default='',
-    label=_('OIDC Authorize URI'),
-    help_text=_('Provide this URI as the authorize URI for your application as part of your registration process. The authorize URI on the authorization server is where an OpenID Connect flow starts.'),
+    label=_('OIDC Endpoint'),
+    help_text=_('Provide the OIDC endpoint for your application as part of your registration process. The OIDC endpoint will be used to reach your provider\'s discovery endpoint (by appending "/.well-known/openid-configuration" to this input).'),
     category=_('OpenID Connect'),
     category_slug='oidc',
 )
@@ -1246,18 +1246,7 @@ register(
     category_slug='oidc',
     depends_on=['TOWER_URL_BASE'],
 )
-'''
-register(
-    'SOCIAL_AUTH_OIDC_SCOPE',
-    field_class=fields.CharField,
-    allow_blank=True,
-    default='openid',
-    label=_('OIDC Scope'),
-    help_text=_('Multiple scopes may be specified by separating with spaces or commas. The openid scope is the only required scope.'),
-    category=_('OpenID Connect'),
-    category_slug='oidc',
-)
-'''
+
 register(
     'SOCIAL_AUTH_OIDC_KEY',
     field_class=fields.CharField,

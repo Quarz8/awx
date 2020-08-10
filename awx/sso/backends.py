@@ -5,7 +5,7 @@
 from collections import OrderedDict
 import logging
 import uuid
-
+import json # for oidc's get_remote_jwks_keys funtion
 import ldap
 
 # Django
@@ -33,23 +33,23 @@ from social_core.backends.saml import SAMLAuth as BaseSAMLAuth
 from social_core.backends.saml import SAMLIdentityProvider as BaseSAMLIdentityProvider
 from social_core.backends.open_id_connect import OpenIdConnectAuth
 
-# oidc imports required for overridden methods
-from jose import jwk, jwt
-from jose.utils import base64url_decode
-import json
-
 # Ansible Tower
 from awx.sso.models import UserEnterpriseAuth
 
 logger = logging.getLogger('awx.sso.backends')
 
-class CP4MCMOpenIdConnect(OpenIdConnectAuth):
-    name              = 'oidc'
-    OIDC_ENDPOINT = django_settings.SOCIAL_AUTH_OIDC_AUTHORIZE_URI
+class OpenIdConnect(OpenIdConnectAuth):
+    name            = 'oidc'
+    OIDC_ENDPOINT   = django_settings.SOCIAL_AUTH_OIDC_ENDPOINT
 
+    '''
+    The below methods have been overridden from OpenIdConnectAuth because they
+    require certificates to go unverified in requests. Once the certs issue is
+    solved, these methods (and the 'import json') can be removed.
+    '''
     def oidc_config(self):
         return self.get_json(self.OIDC_ENDPOINT +
-                             '/oidc/endpoint/OP/.well-known/openid-configuration', verify=False)
+                             '/.well-known/openid-configuration', verify=False)
 
     def user_data(self, access_token, *args, **kwargs):
         return self.get_json(self.userinfo_url(), headers={
@@ -71,6 +71,7 @@ class CP4MCMOpenIdConnect(OpenIdConnectAuth):
             response['access_token']
         )
         return response
+
 
 class LDAPSettings(BaseLDAPSettings):
 
