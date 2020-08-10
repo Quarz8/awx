@@ -1230,7 +1230,7 @@ register(
     allow_blank=True,
     default='',
     label=_('OIDC Endpoint'),
-    help_text=_('Provide the endpoint for your application as part of your registration process.'),
+    help_text=_('Provide the OIDC endpoint for your application as part of your registration process. The OIDC endpoint will be used to reach your provider\'s discovery endpoint (by appending "/.well-known/openid-configuration" to this input).'),
     category=_('OpenID Connect'),
     category_slug='oidc',
 )
