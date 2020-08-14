@@ -1,0 +1,14 @@
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {
+    
+  },
+  "status": "Failure",
+  "message": "cloudctl-darwin-amd64 is forbidden: User \"system:anonymous\" cannot list resource \"cloudctl-darwin-amd64\" in API group \"\" at the cluster scope",
+  "reason": "Forbidden",
+  "details": {
+    "kind": "cloudctl-darwin-amd64"
+  },
+  "code": 403
+}
