@@ -9,7 +9,7 @@ admin_password: ''
 kubernetes_base_path: "{{ local_base_config_path|default('/tmp') }}/{{ kubernetes_deployment_name }}-config"
 
 kubernetes_awx_version: "{{ dockerhub_version }}"
-# kubernetes_awx_image: "ansible/awx"
+# kubernetes_awx_image: "ansible/awx" # commented this line to use local builded awx images in the awx deployment on ocp. 
 
 awx_psp_create: false
 awx_psp_name: 'awx'
