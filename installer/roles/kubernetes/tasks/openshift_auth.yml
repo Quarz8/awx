@@ -25,7 +25,7 @@
     - openshift_token is not defined
   register: openshift_auth_result
   ignore_errors: true
-  no_log: false
+  no_log: true
 
 - name: OpenShift authentication failed on TLS verification
   fail:
