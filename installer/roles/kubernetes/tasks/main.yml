@@ -261,14 +261,14 @@
   shell: |
     {{ kubectl_or_oc }} -n {{ kubernetes_namespace }} exec ansible-tower-management -- \
       bash -c "echo \"from django.contrib.auth.models import User; User.objects.create_superuser('{{ admin_user }}', '{{ admin_email }}', '{{ admin_password }}')\" | awx-manage shell"
-  # no_log: true
+  no_log: true
   when: super_check.rc > 0
 
 - name: update django super user password
   shell: |
     {{ kubectl_or_oc }} -n {{ kubernetes_namespace }} exec ansible-tower-management -- \
       bash -c "awx-manage update_password --username='{{ admin_user }}' --password='{{ admin_password }}'"
-  # no_log: true
+  no_log: true
   register: result
   changed_when: "'Password updated' in result.stdout"
 
