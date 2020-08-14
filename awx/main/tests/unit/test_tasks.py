@@ -61,7 +61,10 @@ def patch_Job():
 
 @pytest.fixture
 def job():
-    return Job(pk=1, id=1, project=Project(), inventory=Inventory(), job_template=JobTemplate(id=1, name='foo'))
+    return Job(
+        pk=1, id=1,
+        project=Project(local_path='/projects/_23_foo'),
+        inventory=Inventory(), job_template=JobTemplate(id=1, name='foo'))
 
 
 @pytest.fixture
@@ -406,7 +409,9 @@ class TestExtraVarSanitation(TestJobExecution):
 class TestGenericRun():
 
     def test_generic_failure(self, patch_Job):
-        job = Job(status='running', inventory=Inventory(), project=Project())
+        job = Job(
+            status='running', inventory=Inventory(),
+            project=Project(local_path='/projects/_23_foo'))
         job.websocket_emit_status = mock.Mock()
 
         task = tasks.RunJob()
@@ -1036,6 +1041,43 @@ class TestJobCredentials(TestJobExecution):
         assert '--ask-vault-pass' not in ' '.join(args)
         assert '--vault-id dev@prompt' in ' '.join(args)
         assert '--vault-id prod@prompt' in ' '.join(args)
+
+    @pytest.mark.parametrize("verify", (True, False))
+    def test_k8s_credential(self, job, private_data_dir, verify):
+        k8s = CredentialType.defaults['kubernetes_bearer_token']()
+        inputs = {
+            'host': 'https://example.org/',
+            'bearer_token': 'token123',
+        }
+        if verify:
+            inputs['verify_ssl'] = True
+            inputs['ssl_ca_cert'] = 'CERTDATA'
+        credential = Credential(
+            pk=1,
+            credential_type=k8s,
+            inputs = inputs,
+        )
+        credential.inputs['bearer_token'] = encrypt_field(credential, 'bearer_token')
+        job.credentials.add(credential)
+
+        env = {}
+        safe_env = {}
+        credential.credential_type.inject_credential(
+            credential, env, safe_env, [], private_data_dir
+        )
+
+        assert env['K8S_AUTH_HOST'] == 'https://example.org/'
+        assert env['K8S_AUTH_API_KEY'] == 'token123'
+
+        if verify:
+            assert env['K8S_AUTH_VERIFY_SSL'] == 'True'
+            cert = open(env['K8S_AUTH_SSL_CA_CERT'], 'r').read()
+            assert cert == 'CERTDATA'
+        else:
+            assert env['K8S_AUTH_VERIFY_SSL'] == 'False'
+            assert 'K8S_AUTH_SSL_CA_CERT' not in env
+
+        assert safe_env['K8S_AUTH_API_KEY'] == tasks.HIDDEN_PASSWORD
 
     def test_aws_cloud_credential(self, job, private_data_dir):
         aws = CredentialType.defaults['aws']()

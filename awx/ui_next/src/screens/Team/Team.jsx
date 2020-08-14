@@ -11,12 +11,14 @@ import {
 } from 'react-router-dom';
 import { CaretLeftIcon } from '@patternfly/react-icons';
 import { Card, PageSection } from '@patternfly/react-core';
+import { Config } from '../../contexts/Config';
 import RoutedTabs from '../../components/RoutedTabs';
 import ContentError from '../../components/ContentError';
 import TeamDetail from './TeamDetail';
 import TeamEdit from './TeamEdit';
 import { TeamsAPI } from '../../api';
-import TeamAccessList from './TeamAccess';
+import TeamRolesList from './TeamRoles';
+import { ResourceAccessList } from '../../components/ResourceAccessList';
 
 function Team({ i18n, setBreadcrumb }) {
   const [team, setTeam] = useState(null);
@@ -51,8 +53,8 @@ function Team({ i18n, setBreadcrumb }) {
       id: 99,
     },
     { name: i18n._(t`Details`), link: `/teams/${id}/details`, id: 0 },
-    { name: i18n._(t`Users`), link: `/teams/${id}/users`, id: 1 },
-    { name: i18n._(t`Access`), link: `/teams/${id}/access`, id: 2 },
+    { name: i18n._(t`Access`), link: `/teams/${id}/access`, id: 1 },
+    { name: i18n._(t`Roles`), link: `/teams/${id}/roles`, id: 2 },
   ];
 
   let showCardHeader = true;
@@ -95,13 +97,15 @@ function Team({ i18n, setBreadcrumb }) {
             </Route>
           )}
           {team && (
-            <Route path="/teams/:id/users">
-              <span>Coming soon :)</span>
+            <Route path="/teams/:id/access">
+              <ResourceAccessList resource={team} apiModel={TeamsAPI} />
             </Route>
           )}
           {team && (
-            <Route path="/teams/:id/access">
-              <TeamAccessList />
+            <Route path="/teams/:id/roles">
+              <Config>
+                {({ me }) => <>{me && <TeamRolesList me={me} team={team} />}</>}
+              </Config>
             </Route>
           )}
           <Route key="not-found" path="*">

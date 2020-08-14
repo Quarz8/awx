@@ -39,6 +39,7 @@ function ApplicationFormFields({
     name: 'client_type',
     validate: required(null, i18n),
   });
+
   return (
     <>
       <FormField
@@ -68,17 +69,26 @@ function ApplicationFormFields({
       <FormGroup
         fieldId="authType"
         helperTextInvalid={authorizationTypeMeta.error}
+        validated={
+          !authorizationTypeMeta.touched || !authorizationTypeMeta.error
+            ? 'default'
+            : 'error'
+        }
         isRequired
-        isValid={!authorizationTypeMeta.touched || !authorizationTypeMeta.error}
         label={i18n._(t`Authorization grant type`)}
+        labelIcon={
+          <FieldTooltip
+            content={i18n._(
+              t`The Grant type the user must use for acquire tokens for this application`
+            )}
+          />
+        }
       >
-        <FieldTooltip
-          content={i18n._(
-            t`The Grant type the user must use for acquire tokens for this application`
-          )}
-        />
         <AnsibleSelect
           {...authorizationTypeField}
+          isValid={
+            !authorizationTypeMeta.touched || !authorizationTypeMeta.error
+          }
           isDisabled={match.url.endsWith('edit')}
           id="authType"
           data={[{ label: '', key: 1, value: '' }, ...authorizationOptions]}
@@ -105,17 +115,22 @@ function ApplicationFormFields({
       <FormGroup
         fieldId="clientType"
         helperTextInvalid={clientTypeMeta.error}
+        validated={
+          !clientTypeMeta.touched || !clientTypeMeta.error ? 'default' : 'error'
+        }
         isRequired
-        isValid={!clientTypeMeta.touched || !clientTypeMeta.error}
         label={i18n._(t`Client type`)}
+        labelIcon={
+          <FieldTooltip
+            content={i18n._(
+              t`Set to Public or Confidential depending on how secure the client device is.`
+            )}
+          />
+        }
       >
-        <FieldTooltip
-          content={i18n._(
-            t`Set to Public or Confidential depending on how secure the client device is.`
-          )}
-        />
         <AnsibleSelect
           {...clientTypeField}
+          isValid={!clientTypeMeta.touched || !clientTypeMeta.error}
           id="clientType"
           data={[{ label: '', key: 1, value: '' }, ...clientTypeOptions]}
           onChange={(event, value) => {

@@ -22,7 +22,7 @@ describe('<Search />', () => {
   });
 
   test('it triggers the expected callbacks', () => {
-    const columns = [{ name: 'Name', key: 'name', isDefault: true }];
+    const columns = [{ name: 'Name', key: 'name__icontains', isDefault: true }];
 
     const searchBtn = 'button[aria-label="Search submit button"]';
     const searchTextInput = 'input[aria-label="Search text input"]';
@@ -36,7 +36,12 @@ describe('<Search />', () => {
         collapseListedFiltersBreakpoint="lg"
       >
         <ToolbarContent>
-          <Search qsConfig={QS_CONFIG} columns={columns} onSearch={onSearch} />
+          <Search
+            qsConfig={QS_CONFIG}
+            columns={columns}
+            onSearch={onSearch}
+            onShowAdvancedSearch={jest.fn}
+          />
         </ToolbarContent>
       </Toolbar>
     );
@@ -49,29 +54,12 @@ describe('<Search />', () => {
     expect(onSearch).toBeCalledWith('name__icontains', 'test-321');
   });
 
-  test('handleDropdownToggle properly updates state', async () => {
-    const columns = [{ name: 'Name', key: 'name', isDefault: true }];
-    const onSearch = jest.fn();
-    const wrapper = mountWithContexts(
-      <Toolbar
-        id={`${QS_CONFIG.namespace}-list-toolbar`}
-        clearAllFilters={() => {}}
-        collapseListedFiltersBreakpoint="lg"
-      >
-        <ToolbarContent>
-          <Search qsConfig={QS_CONFIG} columns={columns} onSearch={onSearch} />
-        </ToolbarContent>
-      </Toolbar>
-    ).find('Search');
-    expect(wrapper.state('isSearchDropdownOpen')).toEqual(false);
-    wrapper.instance().handleDropdownToggle(true);
-    expect(wrapper.state('isSearchDropdownOpen')).toEqual(true);
-  });
-
-  test('handleDropdownSelect properly updates state', async () => {
+  test('changing key select updates which key is called for onSearch', () => {
+    const searchButton = 'button[aria-label="Search submit button"]';
+    const searchTextInput = 'input[aria-label="Search text input"]';
     const columns = [
-      { name: 'Name', key: 'name', isDefault: true },
-      { name: 'Description', key: 'description' },
+      { name: 'Name', key: 'name__icontains', isDefault: true },
+      { name: 'Description', key: 'description__icontains' },
     ];
     const onSearch = jest.fn();
     const wrapper = mountWithContexts(
@@ -81,21 +69,78 @@ describe('<Search />', () => {
         collapseListedFiltersBreakpoint="lg"
       >
         <ToolbarContent>
-          <Search qsConfig={QS_CONFIG} columns={columns} onSearch={onSearch} />
+          <Search
+            qsConfig={QS_CONFIG}
+            columns={columns}
+            onSearch={onSearch}
+            onShowAdvancedSearch={jest.fn}
+          />
         </ToolbarContent>
       </Toolbar>
-    ).find('Search');
-    expect(wrapper.state('searchKey')).toEqual('name');
-    wrapper
-      .instance()
-      .handleDropdownSelect({ target: { innerText: 'Description' } });
-    expect(wrapper.state('searchKey')).toEqual('description');
+    );
+
+    act(() => {
+      wrapper
+        .find('Select[aria-label="Simple key select"]')
+        .invoke('onSelect')({ target: { innerText: 'Description' } });
+    });
+    wrapper.update();
+    wrapper.find(searchTextInput).instance().value = 'test-321';
+    wrapper.find(searchTextInput).simulate('change');
+    wrapper.find(searchButton).simulate('click');
+
+    expect(onSearch).toHaveBeenCalledTimes(1);
+    expect(onSearch).toBeCalledWith('description__icontains', 'test-321');
+  });
+
+  test('changing key select to and from advanced causes onShowAdvancedSearch callback to be invoked', () => {
+    const columns = [
+      { name: 'Name', key: 'name__icontains', isDefault: true },
+      { name: 'Description', key: 'description__icontains' },
+      { name: 'Advanced', key: 'advanced' },
+    ];
+    const onSearch = jest.fn();
+    const onShowAdvancedSearch = jest.fn();
+    const wrapper = mountWithContexts(
+      <Toolbar
+        id={`${QS_CONFIG.namespace}-list-toolbar`}
+        clearAllFilters={() => {}}
+        collapseListedFiltersBreakpoint="lg"
+      >
+        <ToolbarContent>
+          <Search
+            qsConfig={QS_CONFIG}
+            columns={columns}
+            onSearch={onSearch}
+            onShowAdvancedSearch={onShowAdvancedSearch}
+          />
+        </ToolbarContent>
+      </Toolbar>
+    );
+
+    act(() => {
+      wrapper
+        .find('Select[aria-label="Simple key select"]')
+        .invoke('onSelect')({ target: { innerText: 'Advanced' } });
+    });
+    wrapper.update();
+    expect(onShowAdvancedSearch).toHaveBeenCalledTimes(1);
+    expect(onShowAdvancedSearch).toBeCalledWith(true);
+    jest.clearAllMocks();
+    act(() => {
+      wrapper
+        .find('Select[aria-label="Simple key select"]')
+        .invoke('onSelect')({ target: { innerText: 'Description' } });
+    });
+    wrapper.update();
+    expect(onShowAdvancedSearch).toHaveBeenCalledTimes(1);
+    expect(onShowAdvancedSearch).toBeCalledWith(false);
   });
 
   test('attempt to search with empty string', () => {
     const searchButton = 'button[aria-label="Search submit button"]';
     const searchTextInput = 'input[aria-label="Search text input"]';
-    const columns = [{ name: 'Name', key: 'name', isDefault: true }];
+    const columns = [{ name: 'Name', key: 'name__icontains', isDefault: true }];
     const onSearch = jest.fn();
     const wrapper = mountWithContexts(
       <Toolbar
@@ -104,7 +149,12 @@ describe('<Search />', () => {
         collapseListedFiltersBreakpoint="lg"
       >
         <ToolbarContent>
-          <Search qsConfig={QS_CONFIG} columns={columns} onSearch={onSearch} />
+          <Search
+            qsConfig={QS_CONFIG}
+            columns={columns}
+            onSearch={onSearch}
+            onShowAdvancedSearch={jest.fn}
+          />
         </ToolbarContent>
       </Toolbar>
     );
@@ -119,7 +169,7 @@ describe('<Search />', () => {
   test('search with a valid string', () => {
     const searchButton = 'button[aria-label="Search submit button"]';
     const searchTextInput = 'input[aria-label="Search text input"]';
-    const columns = [{ name: 'Name', key: 'name', isDefault: true }];
+    const columns = [{ name: 'Name', key: 'name__icontains', isDefault: true }];
     const onSearch = jest.fn();
     const wrapper = mountWithContexts(
       <Toolbar
@@ -128,7 +178,12 @@ describe('<Search />', () => {
         collapseListedFiltersBreakpoint="lg"
       >
         <ToolbarContent>
-          <Search qsConfig={QS_CONFIG} columns={columns} onSearch={onSearch} />
+          <Search
+            qsConfig={QS_CONFIG}
+            columns={columns}
+            onSearch={onSearch}
+            onShowAdvancedSearch={jest.fn}
+          />
         </ToolbarContent>
       </Toolbar>
     );
@@ -143,12 +198,12 @@ describe('<Search />', () => {
 
   test('filter keys are properly labeled', () => {
     const columns = [
-      { name: 'Name', key: 'name', isDefault: true },
-      { name: 'Type', key: 'type', options: [['foo', 'Foo Bar!']] },
+      { name: 'Name', key: 'name__icontains', isDefault: true },
+      { name: 'Type', key: 'or__scm_type', options: [['foo', 'Foo Bar!']] },
       { name: 'Description', key: 'description' },
     ];
     const query =
-      '?organization.or__type=foo&organization.name=bar&item.page_size=10';
+      '?organization.or__scm_type=foo&organization.name__icontains=bar&item.page_size=10';
     const history = createMemoryHistory({
       initialEntries: [`/organizations/${query}`],
     });
@@ -159,19 +214,25 @@ describe('<Search />', () => {
         collapseListedFiltersBreakpoint="lg"
       >
         <ToolbarContent>
-          <Search qsConfig={QS_CONFIG} columns={columns} />
+          <Search
+            qsConfig={QS_CONFIG}
+            columns={columns}
+            onShowAdvancedSearch={jest.fn}
+          />
         </ToolbarContent>
       </Toolbar>,
       { context: { router: { history } } }
     );
     const typeFilterWrapper = wrapper.find(
-      'ToolbarFilter[categoryName="Type"]'
+      'ToolbarFilter[categoryName="Type (or__scm_type)"]'
     );
-    expect(typeFilterWrapper.prop('chips')[0].key).toEqual('or__type:foo');
+    expect(typeFilterWrapper.prop('chips')[0].key).toEqual('or__scm_type:foo');
     const nameFilterWrapper = wrapper.find(
-      'ToolbarFilter[categoryName="Name"]'
+      'ToolbarFilter[categoryName="Name (name__icontains)"]'
     );
-    expect(nameFilterWrapper.prop('chips')[0].key).toEqual('name:bar');
+    expect(nameFilterWrapper.prop('chips')[0].key).toEqual(
+      'name__icontains:bar'
+    );
   });
 
   test('should test handle remove of option-based key', async () => {
@@ -204,6 +265,7 @@ describe('<Search />', () => {
             qsConfig={qsConfigNew}
             columns={columns}
             onRemove={onRemove}
+            onShowAdvancedSearch={jest.fn}
           />
         </ToolbarContent>
       </Toolbar>,
@@ -250,6 +312,7 @@ describe('<Search />', () => {
             qsConfig={qsConfigNew}
             columns={columns}
             onRemove={onRemove}
+            onShowAdvancedSearch={jest.fn}
           />
         </ToolbarContent>
       </Toolbar>,
@@ -264,5 +327,42 @@ describe('<Search />', () => {
         .simulate('click');
     });
     expect(onRemove).toBeCalledWith('or__type', '');
+  });
+
+  test("ToolbarFilter added for any key that doesn't have search column", () => {
+    const columns = [
+      { name: 'Name', key: 'name__icontains', isDefault: true },
+      { name: 'Type', key: 'or__scm_type', options: [['foo', 'Foo Bar!']] },
+      { name: 'Description', key: 'description' },
+    ];
+    const query =
+      '?organization.or__scm_type=foo&organization.name__icontains=bar&organization.name__exact=baz&item.page_size=10&organization.foo=bar';
+    const history = createMemoryHistory({
+      initialEntries: [`/organizations/${query}`],
+    });
+    const wrapper = mountWithContexts(
+      <Toolbar
+        id={`${QS_CONFIG.namespace}-list-toolbar`}
+        clearAllFilters={() => {}}
+        collapseListedFiltersBreakpoint="lg"
+      >
+        <ToolbarContent>
+          <Search
+            qsConfig={QS_CONFIG}
+            columns={columns}
+            onShowAdvancedSearch={jest.fn}
+          />
+        </ToolbarContent>
+      </Toolbar>,
+      { context: { router: { history } } }
+    );
+    const nameExactFilterWrapper = wrapper.find(
+      'ToolbarFilter[categoryName="name__exact"]'
+    );
+    expect(nameExactFilterWrapper.prop('chips')[0].key).toEqual(
+      'name__exact:baz'
+    );
+    const fooFilterWrapper = wrapper.find('ToolbarFilter[categoryName="foo"]');
+    expect(fooFilterWrapper.prop('chips')[0].key).toEqual('foo:bar');
   });
 });

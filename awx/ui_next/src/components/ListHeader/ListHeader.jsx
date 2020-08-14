@@ -94,10 +94,13 @@ class ListHeader extends React.Component {
       emptyStateControls,
       itemCount,
       searchColumns,
+      searchableKeys,
+      relatedSearchableKeys,
       sortColumns,
       renderToolbar,
       qsConfig,
       location,
+      pagination,
     } = this.props;
     const params = parseQueryString(qsConfig, location.search);
     const isEmpty = itemCount === 0 && Object.keys(params).length === 0;
@@ -118,14 +121,18 @@ class ListHeader extends React.Component {
         ) : (
           <Fragment>
             {renderToolbar({
+              itemCount,
               searchColumns,
               sortColumns,
+              searchableKeys,
+              relatedSearchableKeys,
               onSearch: this.handleSearch,
               onReplaceSearch: this.handleReplaceSearch,
               onSort: this.handleSort,
               onRemove: this.handleRemove,
               clearAllFilters: this.handleRemoveAll,
               qsConfig,
+              pagination,
             })}
           </Fragment>
         )}
@@ -138,12 +145,16 @@ ListHeader.propTypes = {
   itemCount: PropTypes.number.isRequired,
   qsConfig: QSConfig.isRequired,
   searchColumns: SearchColumns.isRequired,
+  searchableKeys: PropTypes.arrayOf(PropTypes.string),
+  relatedSearchableKeys: PropTypes.arrayOf(PropTypes.string),
   sortColumns: SortColumns.isRequired,
   renderToolbar: PropTypes.func,
 };
 
 ListHeader.defaultProps = {
   renderToolbar: props => <DataListToolbar {...props} />,
+  searchableKeys: [],
+  relatedSearchableKeys: [],
 };
 
 export default withRouter(ListHeader);

@@ -1697,6 +1697,7 @@ class HostSerializer(BaseSerializerWithVariables):
         d.setdefault('recent_jobs', [{
             'id': j.job.id,
             'name': j.job.job_template.name if j.job.job_template is not None else "",
+            'type': j.job.job_type_name,
             'status': j.job.status,
             'finished': j.job.finished,
         } for j in obj.job_host_summaries.select_related('job__job_template').order_by('-created')[:5]])
@@ -2841,7 +2842,7 @@ class JobTemplateMixin(object):
         return [{
             'id': x.id, 'status': x.status, 'finished': x.finished, 'canceled_on': x.canceled_on,
             # Make type consistent with API top-level key, for instance workflow_job
-            'type': x.get_real_instance_class()._meta.verbose_name.replace(' ', '_')
+            'type': x.job_type_name
         } for x in optimized_qs[:10]]
 
     def get_summary_fields(self, obj):
@@ -4099,7 +4100,8 @@ class JobLaunchSerializer(BaseSerializer):
                 errors.setdefault('credentials', []).append(_(
                     'Cannot assign multiple {} credentials.'
                 ).format(cred.unique_hash(display=True)))
-            if cred.credential_type.kind not in ('ssh', 'vault', 'cloud', 'net'):
+            if cred.credential_type.kind not in ('ssh', 'vault', 'cloud',
+                                                 'net', 'kubernetes'):
                 errors.setdefault('credentials', []).append(_(
                     'Cannot assign a Credential of kind `{}`'
                 ).format(cred.credential_type.kind))
@@ -4662,6 +4664,8 @@ class InstanceSerializer(BaseSerializer):
 
 
 class InstanceGroupSerializer(BaseSerializer):
+
+    show_capabilities = ['edit', 'delete']
 
     committed_capacity = serializers.SerializerMethodField()
     consumed_capacity = serializers.SerializerMethodField()

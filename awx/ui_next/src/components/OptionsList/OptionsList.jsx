@@ -30,6 +30,8 @@ function OptionsList({
   optionCount,
   searchColumns,
   sortColumns,
+  searchableKeys,
+  relatedSearchableKeys,
   multiple,
   header,
   name,
@@ -47,7 +49,6 @@ function OptionsList({
         <SelectedList
           label={i18n._(t`Selected`)}
           selected={value}
-          showOverflowAfter={5}
           onRemove={item => deselectItem(item)}
           isReadOnly={readOnly}
           renderItemChip={renderItemChip}
@@ -61,6 +62,8 @@ function OptionsList({
         qsConfig={qsConfig}
         toolbarSearchColumns={searchColumns}
         toolbarSortColumns={sortColumns}
+        toolbarSearchableKeys={searchableKeys}
+        toolbarRelatedSearchableKeys={relatedSearchableKeys}
         hasContentLoading={isLoading}
         onRowClick={selectItem}
         renderItem={item => (

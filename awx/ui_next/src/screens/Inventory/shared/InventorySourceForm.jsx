@@ -25,7 +25,6 @@ import {
 import {
   AzureSubForm,
   CloudFormsSubForm,
-  CustomScriptSubForm,
   EC2SubForm,
   GCESubForm,
   OpenStackSubForm,
@@ -143,12 +142,14 @@ const InventorySourceFormFields = ({ sourceOptions, i18n }) => {
         <FormGroup
           fieldId="custom-virtualenv"
           label={i18n._(t`Ansible Environment`)}
-        >
-          <FieldTooltip
-            content={i18n._(t`Select the custom
+          labelIcon={
+            <FieldTooltip
+              content={i18n._(t`Select the custom
             Python virtual environment for this
             inventory source sync to run on.`)}
-          />
+            />
+          }
+        >
           <AnsibleSelect
             id="custom-virtualenv"
             data={[
@@ -171,7 +172,6 @@ const InventorySourceFormFields = ({ sourceOptions, i18n }) => {
               {
                 azure_rm: <AzureSubForm sourceOptions={sourceOptions} />,
                 cloudforms: <CloudFormsSubForm />,
-                custom: <CustomScriptSubForm />,
                 ec2: <EC2SubForm sourceOptions={sourceOptions} />,
                 gce: <GCESubForm sourceOptions={sourceOptions} />,
                 openstack: <OpenStackSubForm />,

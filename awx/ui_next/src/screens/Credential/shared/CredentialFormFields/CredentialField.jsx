@@ -29,7 +29,7 @@ function CredentialInput({ fieldOptions, credentialKind, ...rest }) {
         onChange={(value, event) => {
           subFormField.onChange(event);
         }}
-        isValid={isValid}
+        validated={isValid ? 'default' : 'error'}
       />
     );
   }
@@ -38,7 +38,6 @@ function CredentialInput({ fieldOptions, credentialKind, ...rest }) {
       <PasswordInput
         {...subFormField}
         id={`credential-${fieldOptions.id}`}
-        isValid={isValid}
         {...rest}
       />
     );
@@ -55,7 +54,7 @@ function CredentialInput({ fieldOptions, credentialKind, ...rest }) {
       onChange={(value, event) => {
         subFormField.onChange(event);
       }}
-      isValid={isValid}
+      validated={isValid ? 'default' : 'error'}
     />
   );
 }
@@ -107,7 +106,7 @@ function CredentialField({ credentialType, fieldOptions, i18n }) {
         helperTextInvalid={meta.error}
         label={fieldOptions.label}
         isRequired={isRequired}
-        isValid={isValid}
+        validated={isValid ? 'default' : 'error'}
       >
         <AnsibleSelect
           {...subFormField}
@@ -126,12 +125,14 @@ function CredentialField({ credentialType, fieldOptions, i18n }) {
         fieldId={`credential-${fieldOptions.id}`}
         helperTextInvalid={meta.error}
         label={fieldOptions.label}
+        labelIcon={
+          fieldOptions.help_text && (
+            <FieldTooltip content={fieldOptions.help_text} />
+          )
+        }
         isRequired={isRequired}
-        isValid={isValid}
+        validated={isValid ? 'default' : 'error'}
       >
-        {fieldOptions.help_text && (
-          <FieldTooltip content={fieldOptions.help_text} />
-        )}
         <CredentialInput
           credentialKind={credentialType.kind}
           fieldOptions={fieldOptions}
@@ -148,7 +149,7 @@ function CredentialField({ credentialType, fieldOptions, i18n }) {
     <CredentialPluginField
       fieldOptions={fieldOptions}
       isRequired={isRequired}
-      isValid={isValid}
+      validated={isValid ? 'default' : 'error'}
     >
       <CredentialInput fieldOptions={fieldOptions} />
     </CredentialPluginField>

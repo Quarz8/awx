@@ -20,11 +20,13 @@ dockerhub_base=ansible
 # Kubernetes Install
 # kubernetes_context=test-cluster
 # kubernetes_namespace=awx
+# kubernetes_web_svc_type=NodePort
 # Optional Kubernetes Variables
 # pg_image_registry=docker.io
 # pg_serviceaccount=awx
 # pg_volume_capacity=5
 # pg_persistence_storageClass=StorageClassName
+# pg_persistence_existingclaim=postgres_pvc
 # pg_cpu_limit=1000
 # pg_mem_limit=2
 
@@ -117,6 +119,11 @@ create_preload_data=True
 # your credentials
 secret_key=awxsecret
 
+# By default a broadcast websocket secret will be generated.
+# If you would like to *rerun the playbook*, you need to set a unique password.
+# Otherwise it would generate a new one every playbook run.
+# broadcast_websocket_secret=
+
 # Build AWX with official logos
 # Requires cloning awx-logos repo as a sibling of this project.
 # Review the trademark guidelines at https://github.com/ansible/awx-logos/blob/master/TRADEMARKS.md
@@ -162,3 +169,9 @@ secret_key=awxsecret
 # Be aware that journald may rate limit your log messages if you choose it.
 # See: https://docs.docker.com/config/containers/logging/configure/
 # docker_logger=journald
+#
+
+# Add extra hosts to docker compose file. This might be necessary to
+# sneak in servernames. For exmaple for DMZ self-signed CA certificates.
+# Equivialent to using the --add-host parameter with "docker run".
+#docker_compose_extra_hosts="otherserver.local:192.168.0.1,ldap-server.local:192.168.0.2"
